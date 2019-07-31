@@ -6,12 +6,16 @@
 Getting Started
 =================================================
 
+AIS (Automatic Identifies System) connector library is a module that used to connecting mobile devices with AIS devices. Throught this libraray, We can communicate and make data exchange between Mobile Device and AIS Device via bluetooth connection.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-   license
-   help
+   implementation
+   tracking function
+   tagging function
+   sos function
 
 
 
