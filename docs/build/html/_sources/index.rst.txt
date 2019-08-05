@@ -17,8 +17,6 @@ AIS (Automatic Identifies System) connector library is a module that used to con
    tagging function
    sos function
 
-
-
 Indices and tables
 ==================
 
