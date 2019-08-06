@@ -40,6 +40,7 @@ Follow these steps to implement AIS Connector Library in your android app projec
 1. BLE Permission
 
 AIS Connector Library use Bluetooth Low Energy (BLE) to communicate with AIS Device. In order to use Bluetooth features in your application, you must declare the Bluetooth permission :code:`BLUETOOTH`. You need this permission to perform any Bluetooth communication, such as requesting a connection, accepting a connection, and transferring data.
+
 	::
 
         <uses-permission android:name="android.permission.BLUETOOTH"/>
