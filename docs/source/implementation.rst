@@ -45,6 +45,8 @@ AIS Connector Library use Bluetooth Low Energy (BLE) to communicate with AIS Dev
 
         <uses-permission android:name="android.permission.BLUETOOTH"/>
         <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
 
 Then at run-time you can determine BLE availability by using :code:`PackageManager.hasSystemFeature():`
 
@@ -86,7 +88,7 @@ Next, you need to ensure that Bluetooth is enabled. Call :code:`isEnabled()` to 
 4. Find BLE Devices
 
 
-To find BLE devices, you use the :code:`startLeScan()` method. This method takes a :code:`BluetoothAdapter.LeScanCallback` as a parameter. You must implement this callback, because that is how scan results are returned. Because scanning is battery-intensive, you should observe the following guidelines:
+To find BLE devices, you use the :code:`startScan()` method. This method takes a :code:`BluetoothAdapter.BtleScanCallback` as a parameter. You must implement this callback, because that is how scan results are returned. Because scanning is battery-intensive, you should observe the following guidelines:
 
 - As soon as you find the desired device, stop scanning.
 - Never scan on a loop, and set a time limit on your scan. A device that was previously available may have moved out of range, and continuing to scan drains the battery.
@@ -96,10 +98,6 @@ The following snippet shows how to start a scan:
 	::
 
 		private void startScan() {
-		        if (!((MainActivity) getActivity()).hasPermissions()|| mScanning) {
-		            return;
-		        }
-		        ...
 		        mScanResults = new HashMap<>();
 		        mScanCallback = new BtleScanCallback(mScanResults);
 
@@ -128,7 +126,7 @@ The following snippet shows how to start a scan:
 		        log("Started scanning.");
 		    }
 
-The following snippet shows how to start a scan:
+The following snippet shows how to stop a scan:
 
 	::
 
@@ -158,6 +156,7 @@ You can see the result status using :code:`scanComplete()`
 		            BluetoothDevice device = mScanResults.get(deviceAddress);
 		            GattServerViewModel viewModel = new GattServerViewModel(device);
 
+		            //Optional code to binding result scan to view
 		            ViewGattServerBinding binding = DataBindingUtil.inflate(LayoutInflater.from(getContext()),
 		                    R.layout.view_gatt_server,
 		                    mBinding.serverListContainer,
@@ -169,7 +168,7 @@ You can see the result status using :code:`scanComplete()`
 		    }
 
 
-If you want to scan for only specific types of peripherals, you can instead call startLeScan(UUID[], BluetoothAdapter.LeScanCallback), providing an array of UUID objects that specify the GATT services your app supports.
+If you want to scan for only specific types of peripherals, you can instead call startLeScan(UUID[], BluetoothAdapter.BtleScanCallback), providing an array of UUID objects that specify the GATT services your app supports.
 
 Here is an implementation of the BluetoothAdapter.LeScanCallback, which is the interface used to deliver BLE scan results:
 
@@ -219,3 +218,39 @@ The first step in interacting with a BLE device is connecting to it— more spec
 		   }
 
 This connects to the GATT server hosted by the BLE device, and returns a :code:`BluetoothGatt` instance, which you can then use to conduct GATT client operations. The caller (the Android app) is the GATT client. The :code:`BluetoothGattCallback` is used to deliver results to the client, such as connection status, as well as any further GATT client operations.
+
+6. READ BLE Attribute
+
+Once your Android app has connected to a GATT server and discovered services, it can read and write attributes, where supported. For example, this snippet iterates through the server's services and characteristics and displays them in the UI:
+
+	::
+
+		private void readCharacteristic(BluetoothGattCharacteristic characteristic) {
+		            byte[] messageBytes = characteristic.getValue();
+		            log("Read: " + StringUtils.byteArrayInHexFormat(messageBytes));
+		            String message = StringUtils.stringFromBytes(messageBytes);
+
+		            if (message == null) {
+		                logError("Unable to convert bytes to string");
+		                return;
+		            }
+		            else {
+		                Pattern sos = Pattern.compile("^[!][A][*]$");
+		                Matcher s = sos.matcher(message);
+		                Pattern trackNotLocked = Pattern.compile("^[!][T][V][0-9]{9}[0-9 || a-zA-Z]{0,20}[*]$");
+		                Matcher tn = trackNotLocked.matcher(message);
+		                Pattern trackLocked = Pattern.compile("^1");
+		                Matcher tr = trackLocked.matcher(message);
+
+		                if (s.find()) {
+		                    log("Sos confirm : " + message);
+		                } else if (tn.find()) {
+		                    log("Ship location not locked : " + message);
+		                } else if (tr.find()) {
+		                    String location = StringUtils.getFormattedLocationInLotLang(message);
+		                    log("Ship location is locked : " + location);
+		                } else {
+		                    log("message undifined" +message);
+		                }
+		            }
+		        }

@@ -54,14 +54,14 @@
 <ol class="arabic simple">
 <li>BLE Permission</li>
 </ol>
-<dl class="docutils">
-<dt>AIS Connector Library use Bluetooth Low Energy (BLE) to communicate with AIS Device. In order to use Bluetooth features in your application, you must declare the Bluetooth permission <code class="code docutils literal notranslate"><span class="pre">BLUETOOTH</span></code>. You need this permission to perform any Bluetooth communication, such as requesting a connection, accepting a connection, and transferring data.</dt>
-<dd><div class="first last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH&quot;</span><span class="o">/&gt;</span>
+<p>AIS Connector Library use Bluetooth Low Energy (BLE) to communicate with AIS Device. In order to use Bluetooth features in your application, you must declare the Bluetooth permission <code class="code docutils literal notranslate"><span class="pre">BLUETOOTH</span></code>. You need this permission to perform any Bluetooth communication, such as requesting a connection, accepting a connection, and transferring data.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH&quot;</span><span class="o">/&gt;</span>
 <span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH_ADMIN&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.ACCESS_COARSE_LOCATION&quot;</span><span class="o">/&gt;</span>
 </pre></div>
 </div>
-</dd>
-</dl>
+</div></blockquote>
 <p>Then at run-time you can determine BLE availability by using <code class="code docutils literal notranslate"><span class="pre">PackageManager.hasSystemFeature():</span></code></p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>// Use this check to determine whether BLE is supported on the device. Then
@@ -104,49 +104,45 @@ startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 <ol class="arabic simple" start="4">
 <li>Find BLE Devices</li>
 </ol>
-<p>To find BLE devices, you use the <code class="code docutils literal notranslate"><span class="pre">startLeScan()</span></code> method. This method takes a <code class="code docutils literal notranslate"><span class="pre">BluetoothAdapter.LeScanCallback</span></code> as a parameter. You must implement this callback, because that is how scan results are returned. Because scanning is battery-intensive, you should observe the following guidelines:</p>
+<p>To find BLE devices, you use the <code class="code docutils literal notranslate"><span class="pre">startScan()</span></code> method. This method takes a <code class="code docutils literal notranslate"><span class="pre">BluetoothAdapter.BtleScanCallback</span></code> as a parameter. You must implement this callback, because that is how scan results are returned. Because scanning is battery-intensive, you should observe the following guidelines:</p>
 <ul class="simple">
 <li>As soon as you find the desired device, stop scanning.</li>
 <li>Never scan on a loop, and set a time limit on your scan. A device that was previously available may have moved out of range, and continuing to scan drains the battery.</li>
 </ul>
 <p>The following snippet shows how to start a scan:</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>private void startScan() {
-        if (!((MainActivity) getActivity()).hasPermissions()|| mScanning) {
-            return;
-        }
-        ...
-        mScanResults = new HashMap&lt;&gt;();
-        mScanCallback = new BtleScanCallback(mScanResults);
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">startScan</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">mScanResults</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+        <span class="n">mScanCallback</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BtleScanCallback</span><span class="p">(</span><span class="n">mScanResults</span><span class="p">);</span>
 
-        mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
+        <span class="n">mBluetoothLeScanner</span> <span class="o">=</span> <span class="n">mBluetoothAdapter</span><span class="o">.</span><span class="n">getBluetoothLeScanner</span><span class="p">();</span>
 
-        // Note: Filtering does not work the same (or at all) on most devices. It also is unable to
-        // search for a mask or anything less than a full UUID.
-        // Unless the full UUID of the server is known, manual filtering may be necessary.
-        // For example, when looking for a brand of device that contains a char sequence in the UUID
-        ScanFilter scanFilter = new ScanFilter.Builder()
-                .setServiceUuid(new ParcelUuid(SERVICE_UUID))
-                .build();
-        List&lt;ScanFilter&gt; filters = new ArrayList&lt;&gt;();
-        filters.add(scanFilter);
+        <span class="o">//</span> <span class="n">Note</span><span class="p">:</span> <span class="n">Filtering</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">work</span> <span class="n">the</span> <span class="n">same</span> <span class="p">(</span><span class="ow">or</span> <span class="n">at</span> <span class="nb">all</span><span class="p">)</span> <span class="n">on</span> <span class="n">most</span> <span class="n">devices</span><span class="o">.</span> <span class="n">It</span> <span class="n">also</span> <span class="ow">is</span> <span class="n">unable</span> <span class="n">to</span>
+        <span class="o">//</span> <span class="n">search</span> <span class="k">for</span> <span class="n">a</span> <span class="n">mask</span> <span class="ow">or</span> <span class="n">anything</span> <span class="n">less</span> <span class="n">than</span> <span class="n">a</span> <span class="n">full</span> <span class="n">UUID</span><span class="o">.</span>
+        <span class="o">//</span> <span class="n">Unless</span> <span class="n">the</span> <span class="n">full</span> <span class="n">UUID</span> <span class="n">of</span> <span class="n">the</span> <span class="n">server</span> <span class="ow">is</span> <span class="n">known</span><span class="p">,</span> <span class="n">manual</span> <span class="n">filtering</span> <span class="n">may</span> <span class="n">be</span> <span class="n">necessary</span><span class="o">.</span>
+        <span class="o">//</span> <span class="n">For</span> <span class="n">example</span><span class="p">,</span> <span class="n">when</span> <span class="n">looking</span> <span class="k">for</span> <span class="n">a</span> <span class="n">brand</span> <span class="n">of</span> <span class="n">device</span> <span class="n">that</span> <span class="n">contains</span> <span class="n">a</span> <span class="n">char</span> <span class="n">sequence</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">UUID</span>
+        <span class="n">ScanFilter</span> <span class="n">scanFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ScanFilter</span><span class="o">.</span><span class="n">Builder</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">setServiceUuid</span><span class="p">(</span><span class="n">new</span> <span class="n">ParcelUuid</span><span class="p">(</span><span class="n">SERVICE_UUID</span><span class="p">))</span>
+                <span class="o">.</span><span class="n">build</span><span class="p">();</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">ScanFilter</span><span class="o">&gt;</span> <span class="n">filters</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;</span><span class="p">();</span>
+        <span class="n">filters</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">scanFilter</span><span class="p">);</span>
 
-        ScanSettings settings = new ScanSettings.Builder()
-                .setScanMode(ScanSettings.SCAN_MODE_LOW_POWER)
-                .build();
+        <span class="n">ScanSettings</span> <span class="n">settings</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ScanSettings</span><span class="o">.</span><span class="n">Builder</span><span class="p">()</span>
+                <span class="o">.</span><span class="n">setScanMode</span><span class="p">(</span><span class="n">ScanSettings</span><span class="o">.</span><span class="n">SCAN_MODE_LOW_POWER</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">build</span><span class="p">();</span>
 
-        mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
+        <span class="n">mBluetoothLeScanner</span><span class="o">.</span><span class="n">startScan</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">settings</span><span class="p">,</span> <span class="n">mScanCallback</span><span class="p">);</span>
 
-        mHandler = new Handler();
-        mHandler.postDelayed(this::stopScan, SCAN_PERIOD);
+        <span class="n">mHandler</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Handler</span><span class="p">();</span>
+        <span class="n">mHandler</span><span class="o">.</span><span class="n">postDelayed</span><span class="p">(</span><span class="n">this</span><span class="p">::</span><span class="n">stopScan</span><span class="p">,</span> <span class="n">SCAN_PERIOD</span><span class="p">);</span>
 
-        mScanning = true;
-        log(&quot;Started scanning.&quot;);
-    }
+        <span class="n">mScanning</span> <span class="o">=</span> <span class="n">true</span><span class="p">;</span>
+        <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Started scanning.&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
 </pre></div>
 </div>
 </div></blockquote>
-<p>The following snippet shows how to start a scan:</p>
+<p>The following snippet shows how to stop a scan:</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">stopScan</span><span class="p">()</span> <span class="p">{</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">mScanning</span> <span class="o">&amp;&amp;</span> <span class="n">mBluetoothAdapter</span> <span class="o">!=</span> <span class="n">null</span> <span class="o">&amp;&amp;</span> <span class="n">mBluetoothAdapter</span><span class="o">.</span><span class="n">isEnabled</span><span class="p">()</span> <span class="o">&amp;&amp;</span> <span class="n">mBluetoothLeScanner</span> <span class="o">!=</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
@@ -173,6 +169,7 @@ startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
             <span class="n">BluetoothDevice</span> <span class="n">device</span> <span class="o">=</span> <span class="n">mScanResults</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">deviceAddress</span><span class="p">);</span>
             <span class="n">GattServerViewModel</span> <span class="n">viewModel</span> <span class="o">=</span> <span class="n">new</span> <span class="n">GattServerViewModel</span><span class="p">(</span><span class="n">device</span><span class="p">);</span>
 
+            <span class="o">//</span><span class="n">Optional</span> <span class="n">code</span> <span class="n">to</span> <span class="n">binding</span> <span class="n">result</span> <span class="n">scan</span> <span class="n">to</span> <span class="n">view</span>
             <span class="n">ViewGattServerBinding</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">DataBindingUtil</span><span class="o">.</span><span class="n">inflate</span><span class="p">(</span><span class="n">LayoutInflater</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="n">getContext</span><span class="p">()),</span>
                     <span class="n">R</span><span class="o">.</span><span class="n">layout</span><span class="o">.</span><span class="n">view_gatt_server</span><span class="p">,</span>
                     <span class="n">mBinding</span><span class="o">.</span><span class="n">serverListContainer</span><span class="p">,</span>
@@ -185,7 +182,7 @@ startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 </pre></div>
 </div>
 </div></blockquote>
-<p>If you want to scan for only specific types of peripherals, you can instead call startLeScan(UUID[], BluetoothAdapter.LeScanCallback), providing an array of UUID objects that specify the GATT services your app supports.</p>
+<p>If you want to scan for only specific types of peripherals, you can instead call startLeScan(UUID[], BluetoothAdapter.BtleScanCallback), providing an array of UUID objects that specify the GATT services your app supports.</p>
 <p>Here is an implementation of the BluetoothAdapter.LeScanCallback, which is the interface used to deliver BLE scan results:</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="k">class</span> <span class="nc">BtleScanCallback</span> <span class="n">extends</span> <span class="n">ScanCallback</span> <span class="p">{</span>
@@ -235,6 +232,43 @@ startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 </div>
 </div></blockquote>
 <p>This connects to the GATT server hosted by the BLE device, and returns a <code class="code docutils literal notranslate"><span class="pre">BluetoothGatt</span></code> instance, which you can then use to conduct GATT client operations. The caller (the Android app) is the GATT client. The <code class="code docutils literal notranslate"><span class="pre">BluetoothGattCallback</span></code> is used to deliver results to the client, such as connection status, as well as any further GATT client operations.</p>
+<ol class="arabic simple" start="6">
+<li>READ BLE Attribute</li>
+</ol>
+<p>Once your Android app has connected to a GATT server and discovered services, it can read and write attributes, where supported. For example, this snippet iterates through the server’s services and characteristics and displays them in the UI:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">void</span> <span class="n">readCharacteristic</span><span class="p">(</span><span class="n">BluetoothGattCharacteristic</span> <span class="n">characteristic</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">byte</span><span class="p">[]</span> <span class="n">messageBytes</span> <span class="o">=</span> <span class="n">characteristic</span><span class="o">.</span><span class="n">getValue</span><span class="p">();</span>
+            <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Read: &quot;</span> <span class="o">+</span> <span class="n">StringUtils</span><span class="o">.</span><span class="n">byteArrayInHexFormat</span><span class="p">(</span><span class="n">messageBytes</span><span class="p">));</span>
+            <span class="n">String</span> <span class="n">message</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="n">stringFromBytes</span><span class="p">(</span><span class="n">messageBytes</span><span class="p">);</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">message</span> <span class="o">==</span> <span class="n">null</span><span class="p">)</span> <span class="p">{</span>
+                <span class="n">logError</span><span class="p">(</span><span class="s2">&quot;Unable to convert bytes to string&quot;</span><span class="p">);</span>
+                <span class="k">return</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">else</span> <span class="p">{</span>
+                <span class="n">Pattern</span> <span class="n">sos</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;^[!][A][*]$&quot;</span><span class="p">);</span>
+                <span class="n">Matcher</span> <span class="n">s</span> <span class="o">=</span> <span class="n">sos</span><span class="o">.</span><span class="n">matcher</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+                <span class="n">Pattern</span> <span class="n">trackNotLocked</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;^[!][T][V][0-9]</span><span class="si">{9}</span><span class="s2">[0-9 || a-zA-Z]{0,20}[*]$&quot;</span><span class="p">);</span>
+                <span class="n">Matcher</span> <span class="n">tn</span> <span class="o">=</span> <span class="n">trackNotLocked</span><span class="o">.</span><span class="n">matcher</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+                <span class="n">Pattern</span> <span class="n">trackLocked</span> <span class="o">=</span> <span class="n">Pattern</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;^1&quot;</span><span class="p">);</span>
+                <span class="n">Matcher</span> <span class="n">tr</span> <span class="o">=</span> <span class="n">trackLocked</span><span class="o">.</span><span class="n">matcher</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+
+                <span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">find</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Sos confirm : &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">tn</span><span class="o">.</span><span class="n">find</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Ship location not locked : &quot;</span> <span class="o">+</span> <span class="n">message</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">tr</span><span class="o">.</span><span class="n">find</span><span class="p">())</span> <span class="p">{</span>
+                    <span class="n">String</span> <span class="n">location</span> <span class="o">=</span> <span class="n">StringUtils</span><span class="o">.</span><span class="n">getFormattedLocationInLotLang</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
+                    <span class="n">log</span><span class="p">(</span><span class="s2">&quot;Ship location is locked : &quot;</span> <span class="o">+</span> <span class="n">location</span><span class="p">);</span>
+                <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                    <span class="n">log</span><span class="p">(</span><span class="s2">&quot;message undifined&quot;</span> <span class="o">+</span><span class="n">message</span><span class="p">);</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 
 
