@@ -44,6 +44,8 @@ Follow these steps to implement AIS Connector Library in your android app projec
 	::
 
 		 BluetoothLEHelper ble;
+		 //Enabling bluetooth service
+		 ble = new BluetoothLEHelper(getActivity());
 
 5. Connecting to specify AIS Devices
 
