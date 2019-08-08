@@ -6,49 +6,24 @@
 SOS Function
 =================================================
 
-This snippet below is sample how to send sos message
+Use :code:`messageSos(message)` method to send SOS message to AIS Devices
+
+This snippet bellow is sample usage of this method
 
 	::
 
-		public void sendMessageSos(String message) {
-		       //connection checking
-		       if (!mConnected || !mEchoInitialized) {
-		           return;
-		       }
+		btnSendSos = (Button) view.findViewById(R.id.send_sos_button);
 
-		       //Get characteristic
-		       BluetoothGattCharacteristic characteristic = BluetoothUtils.findEchoCharacteristic(mGatt);
-		       if (characteristic == null) {
-		           logError("Unable to find echo characteristic.");
-		           disconnectGattServer();
-		           return;
-		       }
+		        sendSos.setOnClickListener(new View.OnClickListener()
+		        {
+		            @Override
+		            public void onClick(View v)
+		            {
+		                String message ="BENCANA ALAM";
+		                 ble.sendMessageSos(message);
 
-		       //matches value that acceptable by sensor
-		       if (message.matches("^[\\x20-\\x5F]{0,16}")){
-		           String messageSos = StringUtils.structurMsgSos(message); 
-		           byte[] messageBytes = StringUtils.bytesFromString(messageSos);
-		           if (messageBytes.length == 0) {
-		               logError("Unable to convert message to bytes");
-		               return;
-		           }
+		            }
+		        });
 
-		           //sending value to sensor
-		           characteristic.setValue(messageBytes);
-		           boolean success = mGatt.writeCharacteristic(characteristic);
 
-		           //check status of sending process (Optional)
-		           if (success) {
-		               log("Wrote: " + StringUtils.byteArrayInHexFormat(messageBytes));
-		           } else {
-		               logError("Failed to write data");
-		           }
-		       } else {
-		           logError("Character more 16 and not ascii");
-
-		       }
-
-		   }
-
-The details explanation will be updated soon
-
+SOS message system have a timeout of around 500 ms should be employed in the mobile application side while waiting for the above response. If the timeout is exceeded, the request should be repeated until the response above is acquired. After the request is confirmed, there is a 10 s timeout before the actual switching to AIS-SART mode truly begins. In this time frame, the user can request to cancel the switching action using this method :code:`sendMessageCancel()` 

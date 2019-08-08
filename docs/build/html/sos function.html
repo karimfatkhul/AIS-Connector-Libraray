@@ -35,51 +35,25 @@
             
   <div class="section" id="sos-function">
 <h1>SOS Function<a class="headerlink" href="#sos-function" title="Permalink to this headline">¶</a></h1>
-<p>This snippet below is sample how to send sos message</p>
+<p>Use <code class="code docutils literal notranslate"><span class="pre">messageSos(message)</span></code> method to send SOS message to AIS Devices</p>
+<p>This snippet bellow is sample usage of this method</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>public void sendMessageSos(String message) {
-       //connection checking
-       if (!mConnected || !mEchoInitialized) {
-           return;
-       }
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">btnSendSos</span> <span class="o">=</span> <span class="p">(</span><span class="n">Button</span><span class="p">)</span> <span class="n">view</span><span class="o">.</span><span class="n">findViewById</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">send_sos_button</span><span class="p">);</span>
 
-       //Get characteristic
-       BluetoothGattCharacteristic characteristic = BluetoothUtils.findEchoCharacteristic(mGatt);
-       if (characteristic == null) {
-           logError(&quot;Unable to find echo characteristic.&quot;);
-           disconnectGattServer();
-           return;
-       }
+        <span class="n">sendSos</span><span class="o">.</span><span class="n">setOnClickListener</span><span class="p">(</span><span class="n">new</span> <span class="n">View</span><span class="o">.</span><span class="n">OnClickListener</span><span class="p">()</span>
+        <span class="p">{</span>
+            <span class="nd">@Override</span>
+            <span class="n">public</span> <span class="n">void</span> <span class="n">onClick</span><span class="p">(</span><span class="n">View</span> <span class="n">v</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">String</span> <span class="n">message</span> <span class="o">=</span><span class="s2">&quot;BENCANA ALAM&quot;</span><span class="p">;</span>
+                 <span class="n">ble</span><span class="o">.</span><span class="n">sendMessageSos</span><span class="p">(</span><span class="n">message</span><span class="p">);</span>
 
-       //matches value that acceptable by sensor
-       if (message.matches(&quot;^[\\x20-\\x5F]{0,16}&quot;)){
-           String messageSos = StringUtils.structurMsgSos(message);
-           byte[] messageBytes = StringUtils.bytesFromString(messageSos);
-           if (messageBytes.length == 0) {
-               logError(&quot;Unable to convert message to bytes&quot;);
-               return;
-           }
-
-           //sending value to sensor
-           characteristic.setValue(messageBytes);
-           boolean success = mGatt.writeCharacteristic(characteristic);
-
-           //check status of sending process (Optional)
-           if (success) {
-               log(&quot;Wrote: &quot; + StringUtils.byteArrayInHexFormat(messageBytes));
-           } else {
-               logError(&quot;Failed to write data&quot;);
-           }
-       } else {
-           logError(&quot;Character more 16 and not ascii&quot;);
-
-       }
-
-   }
+            <span class="p">}</span>
+        <span class="p">});</span>
 </pre></div>
 </div>
 </div></blockquote>
-<p>The details explanation will be updated soon</p>
+<p>SOS message system have a timeout of around 500 ms should be employed in the mobile application side while waiting for the above response. If the timeout is exceeded, the request should be repeated until the response above is acquired. After the request is confirmed, there is a 10 s timeout before the actual switching to AIS-SART mode truly begins. In this time frame, the user can request to cancel the switching action using this method <code class="code docutils literal notranslate"><span class="pre">sendMessageCancel()</span></code></p>
 </div>
 
 
