@@ -12,10 +12,10 @@ Use :code:`sendRequestTracking()` method to send tracking request to the AIS Dev
 There are 2 return message type of :code:`sendRequestTracking()` method.
 
 **1. Locked**
-Locked indicate that the ship has locked the location. If the return message is locked we get 3 data, these are mmsi, shipname and lat lon.
+  Locked indicate that the ship has locked the location. If the return message is locked we get 3 data, these are mmsi, shipname and lat lon.
 
 **2. Unlocked** 
-Unlocked indicate that the ship hasn't locked the location, we just get 2 data these are mmsi and shipname.
+  Unlocked indicate that the ship hasn't locked the location, we just get 2 data these are mmsi and shipname.
 
 This snippet bellow is code to check return message of :code:`sendRequestTracking()` method.
 

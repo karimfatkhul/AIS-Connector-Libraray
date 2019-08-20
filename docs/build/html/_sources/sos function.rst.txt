@@ -28,9 +28,9 @@ This snippet bellow is sample usage of this method
 There are 2 return message type of the method above.
 
 **1. Confirm**
-Confirm indicate that sos message is send sucsessfully.
+  Confirm indicate that sos message is send sucsessfully.
 
 **2. Ignore**
-Ignore indicate that ais device is not responding during the sending sos process.
+  Ignore indicate that ais device is not responding during the sending sos process.
 
 SOS message system have a timeout of around 500 ms should be employed in the mobile application side while waiting for the above response. If the timeout is exceeded, the request should be repeated until the response above is acquired. After the request is confirmed, there is a 10 s timeout before the actual switching to AIS-SART mode truly begins. In this time frame, the user can request to cancel the switching action using this method :code:`sendCancelMessageSos` 
