@@ -36,7 +36,34 @@
             
   <div class="section" id="tracking-function">
 <h1>Tracking Function<a class="headerlink" href="#tracking-function" title="Permalink to this headline">¶</a></h1>
-<p>Updated soon</p>
+<p>Use <code class="code docutils literal notranslate"><span class="pre">sendRequestTracking()</span></code> method to send tracking request to the AIS Device.</p>
+<p>There are 2 return message type of <code class="code docutils literal notranslate"><span class="pre">sendRequestTracking()</span></code> method.</p>
+<p><strong>1. Locked</strong>
+Locked indicate that the ship has locked the location. If the return message is locked we get 3 data, these are mmsi, shipname and lat lon.</p>
+<p><strong>2. Unlocked</strong>
+Unlocked indicate that the ship hasn’t locked the location, we just get 2 data these are mmsi and shipname.</p>
+<p>This snippet bellow is code to check return message of <code class="code docutils literal notranslate"><span class="pre">sendRequestTracking()</span></code> method.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STATUS_TRACKING</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>We can use the code bellow to read the return data of <code class="code docutils literal notranslate"><span class="pre">sendRequestTracking()</span></code> method.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">//</span><span class="n">get</span> <span class="n">ship</span> <span class="n">name</span>
+<span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_SHIP_NAME</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+
+<span class="o">//</span><span class="n">get</span> <span class="n">mmsi</span>
+<span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_MMSI</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+
+<span class="o">//</span><span class="n">get</span> <span class="n">latitude</span>
+<span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_LATITUDE</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+
+<span class="o">//</span><span class="n">get</span> <span class="n">longtitude</span>
+<span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_LONGTITUDE</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 
 
