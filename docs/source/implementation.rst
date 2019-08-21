@@ -8,14 +8,15 @@ Implementation
 
 Follow these steps to implement AIS Connector Library in your android app project.
 
+**Note: Use Minimum API level 21**
+
 **Add module to android project**
 
 1. Add depedencies to your Android project
 
 	::
 
-		implementation 'com.github.nugdoel:bleaislibrary:0.0.1'
-
+		implementation 'com.github.nugdoel:bleaislibrary:1.0.0'
 
 2. Then add the token to your gradle.properties: 
 	
@@ -39,17 +40,66 @@ Follow these steps to implement AIS Connector Library in your android app projec
 		    }
 		}
 
-4. Initialize :code:`BLEadapter`
+4. BLE permissions
 
 	::
 
-		 BluetoothLEHelper ble;
-		 //Enabling bluetooth service
-		 ble = new BluetoothLEHelper(getActivity());
-		 
-		 DataManager.init(getApplicationContext());
+		<uses-permission android:name="android.permission.BLUETOOTH"/>
+		<uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+		<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
-5. Connecting to specify AIS Devices
+5. Initialize :code:`BluetoothLEHelper`
+
+	You can use :code:`BluetoothLEHelper ble = new BluetoothLEHelper(getActivity());;` for enabling blueetooth service.
+
+	This snippet below is sample of the initialize :code:`BluetoothLEHelper` and :code:`fine location configure permission`
+
+	::
+
+		 private static final int ACCESS_COARSE_LOCATION_REQUEST = 2;
+
+		 protected void onCreate(Bundle savedInstanceState) {
+		 	if(hasPermissions()) {
+		             initBluetoothHandler();
+		        }
+		 	} 
+		 	
+		 private void initBluetoothHandler()
+		     {
+		         DataManager.init(getApplicationContext());
+		         //Enabling bluetooth service
+		         ble = new BluetoothLEHelper(this);
+
+		     }
+
+		 private boolean hasPermissions() {
+		        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+		            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		                requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, ACCESS_COARSE_LOCATION_REQUEST);
+		                return false;
+		            }
+		        }
+		        return true;
+		    }
+
+		  @Override
+		  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		      switch (requestCode) {
+		          case ACCESS_COARSE_LOCATION_REQUEST:
+		              if(grantResults.length > 0) {
+		                  if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+		                      initBluetoothHandler();
+		                  }
+		              }
+		              break;
+		          default:
+		              super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		              break;
+		      }
+		  }
+
+
+6. Connecting to specify AIS Devices
 
 	Use :code:`ble.connectedDevice(true, BLEAddress)` method to connected to the device.
 
@@ -70,7 +120,7 @@ Follow these steps to implement AIS Connector Library in your android app projec
 		            }
 		        });
 
-6. Disconnecting from AIS Devices
+7. Disconnecting from AIS Devices
 
 	Use :code:`ble.disconnectedDevice()` method to disconnecting to the device.
 

@@ -37,11 +37,12 @@
   <div class="section" id="implementation">
 <h1>Implementation<a class="headerlink" href="#implementation" title="Permalink to this headline">¶</a></h1>
 <p>Follow these steps to implement AIS Connector Library in your android app project.</p>
+<p><strong>Note: Use Minimum API level 21</strong></p>
 <p><strong>Add module to android project</strong></p>
 <ol class="arabic">
 <li><p class="first">Add depedencies to your Android project</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">implementation</span> <span class="s1">&#39;com.github.nugdoel:bleaislibrary:0.0.1&#39;</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">implementation</span> <span class="s1">&#39;com.github.nugdoel:bleaislibrary:1.0.0&#39;</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -70,13 +71,60 @@
 </div>
 </div></blockquote>
 </li>
-<li><p class="first">Initialize <code class="code docutils literal notranslate"><span class="pre">BLEadapter</span></code></p>
+<li><p class="first">BLE permissions</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">BluetoothLEHelper</span> <span class="n">ble</span><span class="p">;</span>
-<span class="o">//</span><span class="n">Enabling</span> <span class="n">bluetooth</span> <span class="n">service</span>
-<span class="n">ble</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BluetoothLEHelper</span><span class="p">(</span><span class="n">getActivity</span><span class="p">());</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH_ADMIN&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+</div></blockquote>
+</li>
+<li><p class="first">Initialize <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span></code></p>
+<blockquote>
+<div><p>You can use <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span> <span class="pre">ble</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">BluetoothLEHelper(getActivity());;</span></code> for enabling blueetooth service.</p>
+<p>This snippet below is sample of the initialize <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span></code> and <code class="code docutils literal notranslate"><span class="pre">fine</span> <span class="pre">location</span> <span class="pre">configure</span> <span class="pre">permission</span></code></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">int</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
 
-<span class="n">DataManager</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">getApplicationContext</span><span class="p">());</span>
+<span class="n">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">if</span><span class="p">(</span><span class="n">hasPermissions</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">initBluetoothHandler</span><span class="p">();</span>
+       <span class="p">}</span>
+       <span class="p">}</span>
+
+<span class="n">private</span> <span class="n">void</span> <span class="n">initBluetoothHandler</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">DataManager</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">getApplicationContext</span><span class="p">());</span>
+        <span class="o">//</span><span class="n">Enabling</span> <span class="n">bluetooth</span> <span class="n">service</span>
+        <span class="n">ble</span> <span class="o">=</span> <span class="n">new</span> <span class="n">BluetoothLEHelper</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+
+    <span class="p">}</span>
+
+<span class="n">private</span> <span class="n">boolean</span> <span class="n">hasPermissions</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">if</span> <span class="p">(</span><span class="n">Build</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="n">VERSION_CODES</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="p">{</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">getApplicationContext</span><span class="p">()</span><span class="o">.</span><span class="n">checkSelfPermission</span><span class="p">(</span><span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_COARSE_LOCATION</span><span class="p">)</span> <span class="o">!=</span> <span class="n">PackageManager</span><span class="o">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">requestPermissions</span><span class="p">(</span><span class="n">new</span> <span class="n">String</span><span class="p">[]</span> <span class="p">{</span> <span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_COARSE_LOCATION</span> <span class="p">},</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span><span class="p">);</span>
+               <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
+           <span class="p">}</span>
+       <span class="p">}</span>
+       <span class="k">return</span> <span class="n">true</span><span class="p">;</span>
+   <span class="p">}</span>
+
+ <span class="nd">@Override</span>
+ <span class="n">public</span> <span class="n">void</span> <span class="n">onRequestPermissionsResult</span><span class="p">(</span><span class="nb">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="nd">@NonNull</span> <span class="n">String</span><span class="p">[]</span> <span class="n">permissions</span><span class="p">,</span> <span class="nd">@NonNull</span> <span class="nb">int</span><span class="p">[]</span> <span class="n">grantResults</span><span class="p">)</span> <span class="p">{</span>
+     <span class="n">switch</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">case</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span><span class="p">:</span>
+             <span class="k">if</span><span class="p">(</span><span class="n">grantResults</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="k">if</span><span class="p">(</span><span class="n">grantResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">PackageManager</span><span class="o">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">)</span> <span class="p">{</span>
+                     <span class="n">initBluetoothHandler</span><span class="p">();</span>
+                 <span class="p">}</span>
+             <span class="p">}</span>
+             <span class="k">break</span><span class="p">;</span>
+         <span class="n">default</span><span class="p">:</span>
+             <span class="nb">super</span><span class="o">.</span><span class="n">onRequestPermissionsResult</span><span class="p">(</span><span class="n">requestCode</span><span class="p">,</span> <span class="n">permissions</span><span class="p">,</span> <span class="n">grantResults</span><span class="p">);</span>
+             <span class="k">break</span><span class="p">;</span>
+     <span class="p">}</span>
+ <span class="p">}</span>
 </pre></div>
 </div>
 </div></blockquote>
