@@ -12,6 +12,7 @@ AIS (Automatic Identifies System) connector library is a module that used to con
    :maxdepth: 2
    :caption: Contents:
 
+   release note
    implementation
    tracking function
    tagging function

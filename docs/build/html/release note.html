@@ -1,0 +1,144 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Release Note &#8212; AIS Connector Library 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Implementation" href="implementation.html" />
+    <link rel="prev" title="Getting Started" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="release-note">
+<h1>Release Note<a class="headerlink" href="#release-note" title="Permalink to this headline">¶</a></h1>
+<p>Latest version <code class="code docutils literal notranslate"><span class="pre">1.0.0</span></code></p>
+<ol class="arabic">
+<li><p class="first">Adding permision in manifest</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.BLUETOOTH_ADMIN&quot;</span><span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="n">uses</span><span class="o">-</span><span class="n">permission</span> <span class="n">android</span><span class="p">:</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;android.permission.ACCESS_FINE_LOCATION&quot;</span><span class="o">/&gt;</span>
+</pre></div>
+</div>
+<p>You can see this changes on the <a class="reference internal" href="implementation.html#implementation"><span class="std std-ref">Implementation</span></a>  page.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Update <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span></code> initialization with sample code for configure fine location permission</p>
+<blockquote>
+<div><p>You can see this changes on the <a class="reference internal" href="implementation.html#implementation"><span class="std std-ref">Implementation</span></a>  page.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Adding <code class="code docutils literal notranslate"><span class="pre">DataManager.init(getApplicationContext());</span></code> for read the return message</p>
+<blockquote>
+<div><p>You can see this changes on the <a class="reference internal" href="implementation.html#implementation"><span class="std std-ref">Implementation</span></a>  page and <a class="reference internal" href="sos function.html#sos-function"><span class="std std-ref">SOS Function</span></a> page.</p>
+</div></blockquote>
+</li>
+<li><p class="first">Adding tracking functionality</p>
+<blockquote>
+<div><p>You can see this changes on the <a class="reference internal" href="tracking function.html#tracking-function"><span class="std std-ref">Tracking Function</span></a> page</p>
+</div></blockquote>
+</li>
+</ol>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">AIS Connector Library</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Release Note</a></li>
+<li class="toctree-l1"><a class="reference internal" href="implementation.html">Implementation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking function.html">Tracking Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tagging function.html">Tagging Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sos function.html">SOS Function</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Getting Started</a></li>
+      <li>Next: <a href="implementation.html" title="next chapter">Implementation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Solusi247.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.5</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/release note.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
