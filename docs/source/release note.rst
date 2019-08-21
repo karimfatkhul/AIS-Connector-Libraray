@@ -8,7 +8,7 @@ Release Note
 
 Latest version :code:`1.0.0`
 
-1. Adding permision in manifest
+1. Adding permission in manifest
 
 	::
 
@@ -30,3 +30,7 @@ Latest version :code:`1.0.0`
 4. Adding tracking functionality  
 
 	You can see this changes on the :ref:`Tracking Function <tracking_function>` page
+
+5. Adding tagging functionality 
+
+	You can see this changes on the :ref:`Tagging Function <tagging_function>` page

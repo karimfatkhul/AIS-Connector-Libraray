@@ -84,7 +84,7 @@
 <blockquote>
 <div><p>You can use <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span> <span class="pre">ble</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">BluetoothLEHelper(getActivity());;</span></code> for enabling blueetooth service.</p>
 <p>This snippet below is sample of the initialize <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span></code> and <code class="code docutils literal notranslate"><span class="pre">fine</span> <span class="pre">location</span> <span class="pre">configure</span> <span class="pre">permission</span></code></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">int</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">int</span> <span class="n">ACCESS_FINE_LOCATION_REQUEST</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
 
 <span class="n">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
        <span class="k">if</span><span class="p">(</span><span class="n">hasPermissions</span><span class="p">())</span> <span class="p">{</span>
@@ -102,8 +102,8 @@
 
 <span class="n">private</span> <span class="n">boolean</span> <span class="n">hasPermissions</span><span class="p">()</span> <span class="p">{</span>
        <span class="k">if</span> <span class="p">(</span><span class="n">Build</span><span class="o">.</span><span class="n">VERSION</span><span class="o">.</span><span class="n">SDK_INT</span> <span class="o">&gt;=</span> <span class="n">Build</span><span class="o">.</span><span class="n">VERSION_CODES</span><span class="o">.</span><span class="n">M</span><span class="p">)</span> <span class="p">{</span>
-           <span class="k">if</span> <span class="p">(</span><span class="n">getApplicationContext</span><span class="p">()</span><span class="o">.</span><span class="n">checkSelfPermission</span><span class="p">(</span><span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_COARSE_LOCATION</span><span class="p">)</span> <span class="o">!=</span> <span class="n">PackageManager</span><span class="o">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">)</span> <span class="p">{</span>
-               <span class="n">requestPermissions</span><span class="p">(</span><span class="n">new</span> <span class="n">String</span><span class="p">[]</span> <span class="p">{</span> <span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_COARSE_LOCATION</span> <span class="p">},</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span><span class="p">);</span>
+           <span class="k">if</span> <span class="p">(</span><span class="n">getApplicationContext</span><span class="p">()</span><span class="o">.</span><span class="n">checkSelfPermission</span><span class="p">(</span><span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_FINE_LOCATION</span><span class="p">)</span> <span class="o">!=</span> <span class="n">PackageManager</span><span class="o">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">)</span> <span class="p">{</span>
+               <span class="n">requestPermissions</span><span class="p">(</span><span class="n">new</span> <span class="n">String</span><span class="p">[]</span> <span class="p">{</span> <span class="n">Manifest</span><span class="o">.</span><span class="n">permission</span><span class="o">.</span><span class="n">ACCESS_FINE_LOCATION</span> <span class="p">},</span> <span class="n">ACCESS_FINE_LOCATION_REQUEST</span><span class="p">);</span>
                <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
            <span class="p">}</span>
        <span class="p">}</span>
@@ -113,7 +113,7 @@
  <span class="nd">@Override</span>
  <span class="n">public</span> <span class="n">void</span> <span class="n">onRequestPermissionsResult</span><span class="p">(</span><span class="nb">int</span> <span class="n">requestCode</span><span class="p">,</span> <span class="nd">@NonNull</span> <span class="n">String</span><span class="p">[]</span> <span class="n">permissions</span><span class="p">,</span> <span class="nd">@NonNull</span> <span class="nb">int</span><span class="p">[]</span> <span class="n">grantResults</span><span class="p">)</span> <span class="p">{</span>
      <span class="n">switch</span> <span class="p">(</span><span class="n">requestCode</span><span class="p">)</span> <span class="p">{</span>
-         <span class="n">case</span> <span class="n">ACCESS_COARSE_LOCATION_REQUEST</span><span class="p">:</span>
+         <span class="n">case</span> <span class="n">ACCESS_FINE_LOCATION_REQUEST</span><span class="p">:</span>
              <span class="k">if</span><span class="p">(</span><span class="n">grantResults</span><span class="o">.</span><span class="n">length</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
                  <span class="k">if</span><span class="p">(</span><span class="n">grantResults</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">PackageManager</span><span class="o">.</span><span class="n">PERMISSION_GRANTED</span><span class="p">)</span> <span class="p">{</span>
                      <span class="n">initBluetoothHandler</span><span class="p">();</span>
@@ -145,6 +145,11 @@
 
             <span class="p">}</span>
         <span class="p">});</span>
+</pre></div>
+</div>
+<p>There are 2 return message type of the method above. Connected and Disconnected</p>
+<p>This snippet below is code to check the return message of <code class="code docutils literal notranslate"><span class="pre">ble.connectedDevice(true,</span> <span class="pre">BLEAddress)</span></code> method.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STATUS_BLUETOOTH</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
 </pre></div>
 </div>
 </div></blockquote>

@@ -35,8 +35,22 @@
           <div class="body" role="main">
             
   <div class="section" id="tagging-function">
-<h1>Tagging Function<a class="headerlink" href="#tagging-function" title="Permalink to this headline">¶</a></h1>
-<p>Updated soon</p>
+<span id="id1"></span><h1>Tagging Function<a class="headerlink" href="#tagging-function" title="Permalink to this headline">¶</a></h1>
+<p>Use <code class="code docutils literal notranslate"><span class="pre">ble.sendMessageTagging(string_commodityCategory,</span> <span class="pre">string_commodityWeight);</span></code> method to send comodity tagging data to the AIS Device.</p>
+<p><strong>Note</strong> The maximum character that can be send to ais device both comodity category and comodity weight is 10 characters.</p>
+<p>There are 2 return message type of the method above.</p>
+<dl class="docutils">
+<dt><strong>1. Confirm</strong></dt>
+<dd>Confirm indicate that tagging message is send sucsessfully.</dd>
+<dt><strong>2. Ignore</strong></dt>
+<dd>Ignore indicate that ais device is not responding during the sending tagging message process.</dd>
+</dl>
+<p>This snippet bellow is code to check return message of <code class="code docutils literal notranslate"><span class="pre">ble.sendMessageTagging(string_commodityCategory,</span> <span class="pre">string_commodityWeight);</span></code> method.</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">DataManager</span><span class="o">.</span><span class="n">getInstance</span><span class="p">()</span><span class="o">.</span><span class="n">getString</span><span class="p">(</span><span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STATUS_TAGGING</span><span class="p">,</span> <span class="n">KeyConstants</span><span class="o">.</span><span class="n">KEY_STRING_DEFAULT</span><span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
 </div>
 
 
@@ -58,6 +72,7 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="release note.html">Release Note</a></li>
 <li class="toctree-l1"><a class="reference internal" href="implementation.html">Implementation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tracking function.html">Tracking Function</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Tagging Function</a></li>

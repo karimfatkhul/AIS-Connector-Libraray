@@ -58,7 +58,7 @@ Follow these steps to implement AIS Connector Library in your android app projec
 
 	::
 
-		 private static final int ACCESS_COARSE_LOCATION_REQUEST = 2;
+		 private static final int ACCESS_FINE_LOCATION_REQUEST = 2;
 
 		 protected void onCreate(Bundle savedInstanceState) {
 		 	if(hasPermissions()) {
@@ -76,8 +76,8 @@ Follow these steps to implement AIS Connector Library in your android app projec
 
 		 private boolean hasPermissions() {
 		        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-		            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-		                requestPermissions(new String[] { Manifest.permission.ACCESS_COARSE_LOCATION }, ACCESS_COARSE_LOCATION_REQUEST);
+		            if (getApplicationContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+		                requestPermissions(new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, ACCESS_FINE_LOCATION_REQUEST);
 		                return false;
 		            }
 		        }
@@ -87,7 +87,7 @@ Follow these steps to implement AIS Connector Library in your android app projec
 		  @Override
 		  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		      switch (requestCode) {
-		          case ACCESS_COARSE_LOCATION_REQUEST:
+		          case ACCESS_FINE_LOCATION_REQUEST:
 		              if(grantResults.length > 0) {
 		                  if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 		                      initBluetoothHandler();
@@ -122,6 +122,15 @@ Follow these steps to implement AIS Connector Library in your android app projec
 		            }
 		        });
 
+	There are 2 return message type of the method above. Connected and Disconnected
+
+	This snippet below is code to check the return message of :code:`ble.connectedDevice(true, BLEAddress)` method.
+
+	::
+
+		DataManager.getInstance().getString(KeyConstants.KEY_STATUS_BLUETOOTH, KeyConstants.KEY_STRING_DEFAULT)
+
+		
 7. Disconnecting from AIS Devices
 
 	Use :code:`ble.disconnectedDevice()` method to disconnecting to the device.
