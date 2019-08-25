@@ -42,14 +42,14 @@
 <ol class="arabic">
 <li><p class="first">Add depedencies to your Android project</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">implementation</span> <span class="s1">&#39;com.github.nugdoel:bleaislibrary:1.0.0&#39;</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">implementation</span> <span class="s1">&#39;com.github.karimfatkhul:bleaislibrary:1.0.1&#39;</span>
 </pre></div>
 </div>
 </div></blockquote>
 </li>
 <li><p class="first">Then add the token to your gradle.properties:</p>
 <blockquote>
-<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">authToken</span><span class="o">=</span><span class="n">jp_1bqr3p2jn9978mh2ngp8312jqc</span>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">authToken</span><span class="o">=</span><span class="n">jp_68gckhjthli3d7i84515it52dk</span>
 </pre></div>
 </div>
 </div></blockquote>
@@ -85,6 +85,7 @@
 <div><p>You can use <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span> <span class="pre">ble</span> <span class="pre">=</span> <span class="pre">new</span> <span class="pre">BluetoothLEHelper(getActivity());;</span></code> for enabling blueetooth service.</p>
 <p>This snippet below is sample of the initialize <code class="code docutils literal notranslate"><span class="pre">BluetoothLEHelper</span></code> and <code class="code docutils literal notranslate"><span class="pre">fine</span> <span class="pre">location</span> <span class="pre">configure</span> <span class="pre">permission</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">private</span> <span class="n">static</span> <span class="n">final</span> <span class="nb">int</span> <span class="n">ACCESS_FINE_LOCATION_REQUEST</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+<span class="n">BluetoothLEHelper</span> <span class="n">ble</span><span class="p">;</span>
 
 <span class="n">protected</span> <span class="n">void</span> <span class="n">onCreate</span><span class="p">(</span><span class="n">Bundle</span> <span class="n">savedInstanceState</span><span class="p">)</span> <span class="p">{</span>
        <span class="k">if</span><span class="p">(</span><span class="n">hasPermissions</span><span class="p">())</span> <span class="p">{</span>

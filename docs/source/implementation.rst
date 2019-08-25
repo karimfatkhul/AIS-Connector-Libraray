@@ -18,13 +18,13 @@ Follow these steps to implement AIS Connector Library in your android app projec
 
 	::
 
-		implementation 'com.github.nugdoel:bleaislibrary:1.0.0'
+		implementation 'com.github.karimfatkhul:bleaislibrary:1.0.1'
 
 2. Then add the token to your gradle.properties: 
 	
 	::
 
-		authToken=jp_1bqr3p2jn9978mh2ngp8312jqc
+		authToken=jp_68gckhjthli3d7i84515it52dk
 
 3. Add the JitPack repository to your build file
 
@@ -59,6 +59,7 @@ Follow these steps to implement AIS Connector Library in your android app projec
 	::
 
 		 private static final int ACCESS_FINE_LOCATION_REQUEST = 2;
+		 BluetoothLEHelper ble;
 
 		 protected void onCreate(Bundle savedInstanceState) {
 		 	if(hasPermissions()) {
