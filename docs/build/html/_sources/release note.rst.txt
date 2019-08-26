@@ -6,7 +6,7 @@
 Release Note
 =================================================
 
-Latest version :code:`1.0.0`
+Latest version :code:`1.0.1`
 
 1. Adding permission in manifest
 
